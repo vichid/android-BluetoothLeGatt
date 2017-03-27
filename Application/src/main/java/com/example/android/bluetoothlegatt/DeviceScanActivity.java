@@ -178,6 +178,7 @@ public class DeviceScanActivity extends ListActivity {
             }, SCAN_PERIOD);
 
             mScanning = true;
+            //Settings and filters can be applied through ScanSettings and ScanFilter
             mBluetoothLeScanner.startScan(mLeScanCallback);
         } else {
             mScanning = false;
