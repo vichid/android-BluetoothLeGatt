@@ -24,7 +24,9 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
+import android.bluetooth.le.ScanFilter;
 import android.bluetooth.le.ScanResult;
+import android.bluetooth.le.ScanSettings;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -45,6 +47,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Activity for scanning and displaying available Bluetooth LE devices.
@@ -195,7 +198,14 @@ public class DeviceScanActivity extends ListActivity {
 
             mScanning = true;
             //Settings and filters can be applied through ScanSettings and ScanFilter
-            mBluetoothLeScanner.startScan(mLeScanCallback);
+            final ScanSettings settings = new ScanSettings.Builder()
+                    .setScanMode(ScanSettings.SCAN_MODE_BALANCED)
+                    .build();
+            final ScanFilter filter = new ScanFilter.Builder()
+                    .setDeviceName("OnePlus2")
+                    .build();
+
+            mBluetoothLeScanner.startScan(new ArrayList<>(Collections.singletonList(filter)), settings, mLeScanCallback);
         } else {
             mScanning = false;
             mBluetoothLeScanner.stopScan(mLeScanCallback);
